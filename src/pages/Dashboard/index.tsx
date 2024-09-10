@@ -28,8 +28,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import { Home, ChartBarIncreasingIcon, BusFrontIcon, MessageCircleHeartIcon, Sun, Moon, CalendarIcon, Settings, TrendingUp, MessageCircle, BellDot, ListTodo, LogOut } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis, Label, Pie, PieChart } from "recharts";
+import { Home, ChartBarIncreasingIcon, BusFrontIcon, MessageCircleHeartIcon, Sun, Moon, CalendarIcon, Settings, TrendingUp, MessageCircle, BellDot, ListTodo, LogOut, TrendingDown } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis, Label, Pie, PieChart, AreaChart, Area } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -37,8 +37,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useNavigate } from 'react-router-dom';
 import { type ChartConfig } from '@/components/ui/chart';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { OrderTableFilters } from '@/orders/order-table-filters';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 
 export function Dashboard() {
@@ -133,6 +132,7 @@ export function Dashboard() {
   const pieConfig = {
     sales: {
       label: "Sales",
+      color: '#acc2ef',
     },
     woman: {
       label: "Woman",
@@ -155,6 +155,35 @@ export function Dashboard() {
       color: '#cee8ff',
     },
   } satisfies ChartConfig
+
+
+  // first chart
+  const trendingData = [
+    { month: "January", desktop: 186 },
+    { month: "February", desktop: 305 },
+    { month: "March", desktop: 237 },
+    { month: "April", desktop: 73 },
+    { month: "May", desktop: 209 },
+    { month: "June", desktop: 214 },
+    { month: "July", desktop: 220 },
+    { month: "August", desktop: 295 },
+    { month: "September", desktop: 359 },
+  ];
+
+  // second Chart
+
+  const loseData = [
+    { month: "January", return: 33 },
+    { month: "February", return: 23 },
+    { month: "March", return: 43 },
+    { month: "April", return: 67 },
+    { month: "May", return: 70 },
+    { month: "June", return: 21 },
+    { month: "July", return: 54 },
+    { month: "August", return: 45 },
+    { month: "September", return: 55 },
+  ];
+
 
   //faturas recentes
 
@@ -199,66 +228,63 @@ export function Dashboard() {
       return username.slice(0, 2).toUpperCase();
     }
 
-   // Filtrar produtos por 
+    // Filtrar produtos por 
 
 
     return (
       <div className={`${darkMode && "dark"}`}>
         <div className=" flex h-full bg-black dark:bg-white  dark:text-black">
           {/* Barra Lateral */}
-          <aside className="w-64 border border-zinc-600 border-l-0 border-b-0 border-t-0 flex flex-col sticky top-0 h-screen">
-            {/* Título com espaçamento inferior */}
-            <div className="p-4 flex justify-center items-center w-full ">
-              <a className="text-white dark:text-black p-6 font-bold text-3xl cursor-pointer">WorkNook</a>
-            </div>
+          <aside className="w-64 border border-zinc-600 border-l-0 border-b-0 border-t-0 flex flex-col fixed top-0 left-0 h-screen">
+  {/* Título com espaçamento inferior */}
+  <div className="p-4 flex justify-center items-center w-full">
+    <a className="text-white dark:text-black p-6 font-bold text-3xl cursor-pointer">WorkNook</a>
+  </div>
 
-            {/* Navegação */}
-            <nav className=" flex-grow text-white dark:text-black">
-              <ul className='space-y-3'>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <Home className="mr-3" />
-                  Dashboard
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <ChartBarIncreasingIcon className="mr-3" />
-                  Analytics Team
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <BusFrontIcon className="mr-3" />
-                  Orders
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <MessageCircleHeartIcon className="mr-3" />
-                  Marketing
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <TrendingUp className="mr-3" />
-                  Performance
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <MessageCircle className="mr-3" />
-                  Chat Team
-                </li>
-                <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <ListTodo className="mr-3" />
-                  ToDo
-                </li>
-
-                <li className="flex items-center  border border-r-0 border-l-0 border-b-0 border-zinc-400 p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <Settings className="mr-3" />
-                  Settings
-                </li>
-
-                <li onClick={createRegister} className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
-                  <LogOut className="mr-3" />
-                  Logout
-                </li>
-              </ul>
-
-            </nav>
-          </aside>
+  {/* Navegação */}
+  <nav className="flex-grow text-white dark:text-black overflow-y-auto">
+    <ul className="space-y-3">
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <Home className="mr-3" />
+        Dashboard
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <ChartBarIncreasingIcon className="mr-3" />
+        Analytics Team
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <BusFrontIcon className="mr-3" />
+        Orders
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <MessageCircleHeartIcon className="mr-3" />
+        Marketing
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <TrendingUp className="mr-3" />
+        Performance
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <MessageCircle className="mr-3" />
+        Chat Team
+      </li>
+      <li className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <ListTodo className="mr-3" />
+        ToDo
+      </li>
+      <li className="flex items-center border border-r-0 border-l-0 border-b-0 border-zinc-400 p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <Settings className="mr-3" />
+        Settings
+      </li>
+      <li onClick={createRegister} className="flex items-center p-5 hover:bg-zinc-950 dark:hover:bg-zinc-100 cursor-pointer">
+        <LogOut className="mr-3" />
+        Logout
+      </li>
+    </ul>
+  </nav>
+</aside>
           {/* Área Principal */}
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 ml-64">
             {/* Barra Superior */}
             <header className="flex justify-between items-center  border border-zinc-600 border-l-0 dark:border-black p-4">
               <div>
@@ -303,44 +329,125 @@ export function Dashboard() {
 
               </div>
 
-
-
             </header>
 
             {/* Conteúdo Principal */}
             <div className="p-6 text-white dark:text-black dark:bg-white border border-zinc-600 dark:border-black flex-1 overflow-y-auto">
               {/* Cartões de Estatísticas */}
               <div className="grid grid-cols-3 gap-6 mb-6">
-                <div className="dark:bg-zinc-50 bg-primary-primary border border-white dark:border-black p-6 rounded-lg shadow-lg">
-                  <div className="text-sm">Average Revenue</div>
-                  <div className="text-3xl font-bold ">$25,565</div>
-                  <div className="text-green-500 "> $20,452</div>
-                  <div className="text-green-800 bg-green-500 rounded-md w-12 flex justify-center">+20%</div>
-                </div>
-                <div className="dark:bg-zinc-50 bg-primary-primary  border border-white dark:border-black p-6 rounded-lg shadow-lg">
-                  <div className="text-sm">Customer Return</div>
-                  <div className="text-3xl font-bold">$7,956</div>
-                  <div className="text-red-500"> $6,759</div>
-                  <div className="text-red-800 bg-red-500 rounded-md w-12 flex justify-center">-15%</div>
-                </div>
+                <Card className='bg-black dark:bg-zinc-50'>
+                  <CardHeader>
+                    <CardTitle className='flex gap-3 text-white dark:text-black'>
+                      
+                      Average Return
+                      <TrendingUp color='#228B22' />
+                      </CardTitle>
+                    <CardDescription>
+                      Showing total profit for the last 9 months
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ChartContainer config={chartConfig}>
+                    <AreaChart
+            accessibilityLayer
+            data={trendingData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <Area
+              dataKey="desktop"
+              type="natural"
+              fill="#4169E1"  // Tomate
+              fillOpacity={0.4}
+              stroke="#191970"  // Aço azul
+            />
+          </AreaChart>
+                    </ChartContainer>
+                  </CardContent>
+                  <CardFooter>
+
+                  </CardFooter>
+                </Card>
+                <Card className='bg-black dark:bg-zinc-50'>
+                  <CardHeader>
+                    <CardTitle className='flex gap-3 text-white dark:text-black'>
+                      Customer Return
+                      <TrendingDown color='#880808' />
+                      </CardTitle>
+                    <CardDescription>
+                    Showing customer returns over the last 9 months
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ChartContainer config={chartConfig}>
+                    <AreaChart
+            accessibilityLayer
+            data={loseData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <Area
+              dataKey="return"
+              type="natural"
+              fill="#D22B2B"  // Tomate
+              fillOpacity={0.4}
+              stroke="#7B1818"  // Aço azul
+            />
+          </AreaChart>
+                    </ChartContainer>
+                  </CardContent>
+                  <CardFooter>
+
+                  </CardFooter>
+                </Card>
                 <div className="rounded-lg shadow-lg">
-                  <Card className="flex flex-col bg-zinc-100 dark:bg-gray-600">
+
+                  <Card className="flex flex-col h-full bg-black dark:bg-zinc-50">
                     <CardHeader className='items-center'>
-                      <CardTitle>Category</CardTitle>
-                      <CardDescription>January - August 2024</CardDescription>
+                      <CardTitle className='text-white dark:text-black'>Category</CardTitle>
+                      <CardDescription>January - September 2024</CardDescription>
                     </CardHeader>
 
                     <CardContent className='flex-1 pb-0' >
                       <ChartContainer config={pieConfig} className='mx-auto aspect-square max-h-[250px]'>
-                        <PieChart>
-                          <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                        <PieChart  >
+                          <ChartTooltip  cursor={false} content={<ChartTooltipContent hideLabel />} />
                           <Pie data={pieData}
                             dataKey='value'
                             nameKey='name'
                             innerRadius={60}
                             strokeWidth={5}
+                            
                           >
-                            <Label
+                            <Label 
                               content={({ viewBox }) => {
                                 if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                   return (
@@ -353,14 +460,14 @@ export function Dashboard() {
                                       <tspan
                                         x={viewBox.cx}
                                         y={viewBox.cy}
-                                        className="fill-foreground text-3xl font-bold"
+                                       className="text-3xl font-bold fill-white dark:fill-black"
                                       >
                                         {totalSales.toLocaleString()}
                                       </tspan>
                                       <tspan
                                         x={viewBox.cx}
                                         y={(viewBox.cy || 0) + 24}
-                                        className="fill-muted-foreground"
+                                        className="fill-gray-500 "
                                       >
                                         Sales
                                       </tspan>
@@ -379,7 +486,7 @@ export function Dashboard() {
 
               {/* Gráfico de Linha */}
               <div className="dark:bg-zinc-50 border border-white dark:border-black p-6 rounded-lg shadow-lg mb-6">
-                <h2 className=" mb-4">Revenue per month</h2>
+                <h2 className=" mb-4">Revenue vs Order</h2>
                 <ChartContainer config={chartConfig} className='h-[400px] w-full'>
                   <BarChart accessibilityLayer data={chartData} >
                     <CartesianGrid vertical={false} className='border border-zinc-50' />
@@ -404,7 +511,6 @@ export function Dashboard() {
                   <h2 className="text-white dark:text-black font-semibold">Your Clients</h2>
                   <Dialog>
                     <DialogTrigger asChild>
-                        <OrderTableFilters />
                     </DialogTrigger>
 
                     <DialogContent>
@@ -436,7 +542,7 @@ export function Dashboard() {
                         <DropdownMenu>
                           <DropdownMenuTrigger>Status</DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem  className='text-green-500 font-semibold'>Paid</DropdownMenuItem>
+                            <DropdownMenuItem className='text-green-500 font-semibold'>Paid</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='text-red-500 font-semibold'>Not Paid</DropdownMenuItem>
                           </DropdownMenuContent>
@@ -536,17 +642,22 @@ export function Dashboard() {
       { id: '2', client: 'Clarice', orderDate: 'January 19, 2024', status: 'Paid', amount: 200.00 },
       { id: '3', client: 'John', orderDate: 'July 8, 2024', status: 'Paid', amount: 300.00 },
       { id: '4', client: 'Leonardo', orderDate: 'August 10, 2024', status: 'Not Paid', amount: 400.00 },
-      { id: '5', client: 'Théo', orderDate: 'September 15, 2024', status: 'Paid', amount: 500.00 },
+      { id: '5', client: 'Théo', orderDate: 'September 01, 2024', status: 'Paid', amount: 500.00 },
       { id: '6', client: 'Fabiana', orderDate: 'March 12, 2024', status: 'Paid', amount: 600.00 },
       { id: '7', client: 'Rafaela', orderDate: 'August 28, 2024', status: 'Paid', amount: 700.00 },
       { id: '8', client: 'Heitor', orderDate: 'July 11, 2024', status: 'Paid', amount: 800.00 },
       { id: '9', client: 'Igor', orderDate: 'August 1, 2024', status: 'Not Paid', amount: 900.00 },
-      { id: '10', client: 'Cristina', orderDate: 'October 29, 2024', status: 'Paid', amount: 1000.00 },
-      { id: '11', client: 'Donizete', orderDate: 'November 16, 2024', status: 'Paid Paid', amount: 100.00 },
-      { id: '12', client: 'Juliana', orderDate: 'August 9, 2024', status: 'Not Paid', amount: 200.00 },
+      { id: '10', client: 'Cristina', orderDate: 'February 29, 2024', status: 'Paid', amount: 1000.00 },
+      { id: '11', client: 'Donizete', orderDate: 'August 16, 2024', status: 'Paid', amount: 100.00 },
+      { id: '12', client: 'Juliana', orderDate: 'September 9, 2024', status: 'Not Paid', amount: 200.00 },
       { id: '13', client: 'Ana Clara', orderDate: 'August 14, 2024', status: 'Not Paid', amount: 240.00 },
       { id: '14', client: 'Emmanuele', orderDate: 'August 17, 2024', status: 'Paid', amount: 400.00 },
-      { id: '15', client: 'Sergio', orderDate: 'October 18, 2024', status: 'Paid', amount: 125.00 },
+      { id: '16', client: 'Sergio', orderDate: 'October 18, 2024', status: 'Paid', amount: 125.00 },
+      { id: '17', client: 'Cris', orderDate: 'September 01, 2024', status: 'Paid', amount: 200.00 },
+      { id: '18', client: 'André', orderDate: 'August 29, 2024', status: 'Paid', amount: 225.00 },
+      { id: '19', client: 'Regiana', orderDate: 'September 03, 2024', status: 'Not Paid', amount: 350.00 },
+      { id: '20', client: 'Rafael', orderDate: 'September 02, 2024', status: 'Not Paid', amount: 200.00 },
+      { id: '21', client: 'Lucas', orderDate: 'September 04, 2024', status: 'Paid', amount: 500.00 },
     ]} />
   )
 };
